@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-
+Article.destroy_all
 puts 'Creating 2 articles...'
 Article.create!({
   title: "Ruby on Rails in 2019",
