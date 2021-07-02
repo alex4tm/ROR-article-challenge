@@ -1,0 +1,8 @@
+<div class="d-flex container">
+
+    <%= simple_form_for @article do |f| %>
+      <%= f.input :title, label: "Add title", required: true %>
+      <%= f.input :source_link, label: "Source Link", required: true %>
+      <%= f.submit 'Create', class: 'btn btn-success m-2 p-2' %>
+    <% end %>
+</div>
