@@ -1,11 +1,6 @@
-require 'open-uri'
-require 'nokogiri'
-
 class ArticlesController < ApplicationController
-
   def index
     @articles = Article.all
-
   end
 
   def show
@@ -28,7 +23,7 @@ class ArticlesController < ApplicationController
     end
   end
 
-private
+  private
 
   def article_params
     params.require(:article).permit(:title, :source_link)
@@ -36,26 +31,16 @@ private
 
   def scrape_link(article)
     url = article.source_link
-
     html_file = URI.open(url).read
     html_doc = Nokogiri::HTML(html_file)
     body = []
     headers = []
-    html_doc.css("body").collect do | element |
-     headers << element.css('h1')
-     headers << element.css('h2')
-     headers << element.css('h3')
-     body << element.css('p')
-     return "#{headers.join(" ")} + #{body.join(" ")}"
+    html_doc.css("body").collect do |element|
+      headers << element.css('h1')
+      headers << element.css('h2')
+      headers << element.css('h3')
+      body << element.css('p')
+      return "#{headers.join(' ')} + #{body.join(' ')}"
+    end
   end
-
-
-    # html_doc.search('h2').each do |element|
-
-    #    element.children.inner_html.split(".").each do |h2|
-    #       return h2
-    #    end
-    # end
-  end
-
 end
