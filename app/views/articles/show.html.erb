@@ -5,8 +5,7 @@
 <div class="container p-3 m-3">
     <h1>Title: <%=@article.title  %> </h1>
     <h3>Shortened-link(to_do): <a href="<%=  @article.source_link  %>" target="_blank"><%=  @article.source_link  %></a>  </h3>
-    <h5>Reading time: 10 minutes </h5>
-    <p> Article body: Lorem ipsum, dolor sit amet consectetur adipisicing elit. Temporibus non numquam unde sit laborum eligendi quod, nisi deserunt hic at omnis deleniti exercitationem repellendus? Atque vero unde eligendi cumque quaerat? </p>
+    <h5>Reading time: <%= @reading_time %> minutes </h5>
+
+    <p> <%= @body %> </p>
 </div>
-
-
