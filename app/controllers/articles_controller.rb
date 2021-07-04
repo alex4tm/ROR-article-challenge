@@ -1,13 +1,17 @@
 class ArticlesController < ApplicationController
+
+    after_action :scrape_link, only: [:create]
+
   def index
     @articles = Article.all
   end
 
   def show
     @article = Article.find(params[:id])
-    @body = scrape_link(@article)
     words_per_minute = 150
-    @reading_time = (@body.size / words_per_minute)
+      if @article.body
+        @reading_time = (@article.body.size / words_per_minute)
+      end
   end
 
   def new
@@ -16,6 +20,7 @@ class ArticlesController < ApplicationController
 
   def create
     @article = Article.new(article_params)
+
     if @article.save
       redirect_to root_path
     else
@@ -29,18 +34,18 @@ class ArticlesController < ApplicationController
     params.require(:article).permit(:title, :source_link)
   end
 
-  def scrape_link(article)
-    url = article.source_link
+  def scrape_link
+    url = @article.source_link
     html_file = URI.open(url).read
     html_doc = Nokogiri::HTML(html_file)
     body = []
-    headers = []
     html_doc.css("body").collect do |element|
-      headers << element.css('h1')
-      headers << element.css('h2')
-      headers << element.css('h3')
-      body << element.css('p')
-      return "#{headers.join(' ')} + #{body.join(' ')}"
+      body << element.css('h1').children.text
+      body << element.css('h2').children.text
+      body << element.css('h3').children.text
+      body << element.css('p').children.text
     end
+    @article.body = "#{body}"
+    @article.save!
   end
 end
