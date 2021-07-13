@@ -2,7 +2,11 @@ class ArticlesController < ApplicationController
   after_action :scrape_link, only: [:create]
 
   def index
-    @articles = Article.all
+    if params[:query].present?
+      @articles = Article.search_by_title_and_body(params[:query])
+    else
+      @articles = Article.all
+    end
   end
 
   def show
@@ -26,7 +30,7 @@ class ArticlesController < ApplicationController
   private
 
   def article_params
-    params.require(:article).permit(:title, :source_link)
+    params.require(:article).permit(:title, :source_link, :query)
   end
 
   def scrape_link
