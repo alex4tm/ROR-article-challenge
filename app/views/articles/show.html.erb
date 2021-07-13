@@ -4,8 +4,16 @@
 </div>
 <div class="container p-3 m-3">
     <h1>Title: <%=@article.title  %> </h1>
-    <h3>Shortened-link(to_do): <a href="<%=  @article.source_link  %>" target="_blank"><%=  @article.source_link  %></a>  </h3>
-    <h5>Reading time: <%= @reading_time %> minutes </h5>
-
+    <h3>Shortened-link(to_do): <a href="<%=  @article.source_link  %>" target="_blank"><%=  @article.source_link  %></a></h3>
+    <% if @article.body %>
+      <p>Reading time: <%= @article.reading_time %> minute<%= @article.reading_time.to_i > 1 ? "s" : "" %></p>
+    <% end %>
+    <% @article.headers.each do |header| %>
+      <ul>
+        <li>
+          <h6> <%= header %></h6>
+        </li>
+      </ul>
+    <% end %>
     <p> <%= @article.body %> </p>
 </div>

@@ -5,7 +5,7 @@
 
   <ul>
     <% @articles.each do | article | %>
-      <li><%= link_to article.title, article_path(article) %></li>
+      <li><%= link_to article.title, article_path(article) %> - reading time: <%= article.reading_time %> minutes  - link: <%= link_to "short_link", article.source_link %></li>
     <% end %>
   </ul>
 

@@ -1,6 +1,5 @@
 class ArticlesController < ApplicationController
-
-    after_action :scrape_link, only: [:create]
+  after_action :scrape_link, only: [:create]
 
   def index
     @articles = Article.all
@@ -8,10 +7,6 @@ class ArticlesController < ApplicationController
 
   def show
     @article = Article.find(params[:id])
-    words_per_minute = 150
-      if @article.body
-        @reading_time = (@article.body.size / words_per_minute)
-      end
   end
 
   def new
@@ -38,14 +33,18 @@ class ArticlesController < ApplicationController
     url = @article.source_link
     html_file = URI.open(url).read
     html_doc = Nokogiri::HTML(html_file)
+    headers = []
     body = []
-    html_doc.css("body").collect do |element|
-      body << element.css('h1').children.text
-      body << element.css('h2').children.text
-      body << element.css('h3').children.text
+    html_doc.css('body').collect do |element|
+      headers << element.css('h1').children.text
+      headers << element.css('h2').children.text
+      headers << element.css('h3').children.text
       body << element.css('p').children.text
     end
-    @article.body = "#{body}"
+    @article.body = body.to_s
+    @article.headers = headers.to_s.split(',')
+    @article.save!
+    @article.reading_time = (@article.body.split(' ').size / 120)
     @article.save!
   end
 end
