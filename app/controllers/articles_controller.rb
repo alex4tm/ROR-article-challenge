@@ -3,7 +3,7 @@ class ArticlesController < ApplicationController
 
   def index
     if params[:query].present?
-      @articles = Article.search_by_title_and_body(params[:query])
+      @articles = Article.search_by_title_headers_and_body(params[:query])
     else
       @articles = Article.all
     end
