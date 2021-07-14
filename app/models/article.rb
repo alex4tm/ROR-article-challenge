@@ -11,5 +11,5 @@ class Article < ActiveRecord::Base
                   using: {
                     tsearch: { prefix: true }
                   },
-                  ranked_by: ":tsearch / 2.0"
+                  ranked_by: ':tsearch / 2.0'
 end

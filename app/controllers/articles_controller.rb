@@ -46,7 +46,7 @@ class ArticlesController < ApplicationController
       body << element.css('p').children.text
     end
     @article.body = body.to_s
-    @article.headers = headers.to_s.split(',')
+    @article.headers = headers.to_s
     @article.save!
     @article.reading_time = (@article.body.split(' ').size / 120)
     @article.save!
