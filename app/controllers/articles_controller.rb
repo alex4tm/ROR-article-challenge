@@ -57,6 +57,5 @@ class ArticlesController < ApplicationController
     bitlink = client.shorten(long_url: article.source_link)
     article.short_link = bitlink.link
     article.views = bitlink.clicks_summary.total_clicks
-    article.save
   end
 end
