@@ -14,7 +14,7 @@
     <ul>
       <% @articles.each do | article | %>
         <li>- title: <%= link_to article.title, article_path(article) %>
-            - link: <%= link_to article.short_link %>
+            - link: <a href="<%=  article.short_link %>" target="_blank"><%=  article.short_link  %></a>
             - viewed: <%= article.views %> <%= article.views == 1 ? "time" : "times" %>
             - reading time: <%= article.reading_time %> <%= article.reading_time.to_i == 1 ? "minute" : "minutes" %>
         </li>
