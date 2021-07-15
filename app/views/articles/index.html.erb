@@ -11,10 +11,10 @@
 
   </div>
     <%= link_to "New article", new_articles_path, class: "btn btn-success m-3 p-2" %>
-    <ul>
+    <ul class="list-unstyled">
       <% @articles.each do | article | %>
-        <li>- title: <%= link_to article.title, article_path(article) %>
-            - link: <a href="<%=  article.short_link %>" target="_blank"><%=  article.short_link  %></a>
+        <li class="m-2 p-2">- title: <%= link_to article.title, article_path(article), class: 'text-decoration-none' %>
+            - link: <a class="text-decoration-none" href="<%=  article.short_link %>" target="_blank"><%=  article.short_link  %></a>
             - viewed: <%= article.views %> <%= article.views == 1 ? "time" : "times" %>
             - reading time: <%= article.reading_time %> <%= article.reading_time.to_i == 1 ? "minute" : "minutes" %>
         </li>
