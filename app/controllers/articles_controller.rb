@@ -38,12 +38,12 @@ class ArticlesController < ApplicationController
     html_file = URI.open(url).read
     html_doc = Nokogiri::HTML(html_file)
     headers = []
-    body = []
+    body = ""
     html_doc.css('body').collect do |element|
       headers << element.css('h1').children.text
       headers << element.css('h2').children.text
       headers << element.css('h3').children.text
-      body << element.css('p').children.text
+      body = element.css('p').children.text
     end
     @article.body = body.to_s
     @article.headers = headers.to_s
