@@ -1,5 +1,5 @@
 class ArticlesController < ApplicationController
-  after_action :scrape_link, only: [:create]
+
 
   def index
     if params[:query].present?
@@ -19,10 +19,12 @@ class ArticlesController < ApplicationController
 
   def create
     @article = Article.new(article_params)
-    shorten_link(@article)
-    if @article.save
+    if @article.valid?
+      @article.save
+      # shorten_link(@article)
       redirect_to root_path
     else
+      flash.now[:messages] = @article.errors.full_messages[0]
       render :new
     end
   end
@@ -33,29 +35,4 @@ class ArticlesController < ApplicationController
     params.require(:article).permit(:title, :source_link, :query)
   end
 
-  def scrape_link
-    url = @article.source_link
-    html_file = URI.open(url).read
-    html_doc = Nokogiri::HTML(html_file)
-    headers = []
-    body = ""
-    html_doc.css('body').collect do |element|
-      headers << element.css('h1').children.text
-      headers << element.css('h2').children.text
-      headers << element.css('h3').children.text
-      body = element.css('p').children.text
-    end
-    @article.body = body.to_s
-    @article.headers = headers.to_s
-    @article.save!
-    @article.reading_time = (@article.body.split(' ').size / 120)
-    @article.save!
-  end
-
-  def shorten_link(article)
-    client = Bitly::API::Client.new(token: ENV['BITLY_TOKEN'])
-    bitlink = client.shorten(long_url: article.source_link)
-    article.short_link = bitlink.link
-    article.views = bitlink.clicks_summary.total_clicks
-  end
 end
