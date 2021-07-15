@@ -1,5 +1,5 @@
 class ArticlesController < ApplicationController
-  after_action :scrape_link, only: [:create]
+  after_action :scrape_link, :shorten_link, only: [:create]
 
   def index
     if params[:query].present?
@@ -50,5 +50,13 @@ class ArticlesController < ApplicationController
     @article.save!
     @article.reading_time = (@article.body.split(' ').size / 120)
     @article.save!
+  end
+
+  def shorten_link
+    client = Bitly::API::Client.new(token: ENV['BITLY_TOKEN'])
+    bitlink = client.shorten(long_url: @article.source_link)
+    @article.short_link = bitlink.link
+    @article.views = bitlink.clicks_summary.total_clicks
+    @article.save
   end
 end

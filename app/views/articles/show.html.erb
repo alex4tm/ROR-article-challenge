@@ -4,9 +4,9 @@
 </div>
 <div class="container p-3 m-3">
     <h1>Title: <%=@article.title  %> </h1>
-    <h3>Shortened-link(to_do): <a href="<%=  @article.source_link  %>" target="_blank"><%=  @article.source_link  %></a></h3>
+    <h3>Shortened-link: <a href="<%=  @article.short_link %>" target="_blank"><%=  @article.short_link  %></a></h3>
     <% if @article.body %>
-      <p>Reading time: <%= @article.reading_time %> minute<%= @article.reading_time.to_i > 1 ? "s" : "" %></p>
+      <p>Reading time: <%= @article.reading_time %> minute<%= @article.reading_time.to_i == 1 ? "" : "s" %></p>
     <% end %>
     <% @article.headers.each do |header| %>
       <ul>

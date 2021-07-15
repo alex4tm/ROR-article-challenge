@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_13_180850) do
+ActiveRecord::Schema.define(version: 2021_07_15_124013) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_trgm"
   enable_extension "plpgsql"
 
   create_table "articles", force: :cascade do |t|
@@ -23,6 +24,15 @@ ActiveRecord::Schema.define(version: 2021_07_13_180850) do
     t.string "body"
     t.text "headers", default: [], array: true
     t.string "reading_time"
+    t.string "short_link", default: ""
+    t.integer "views", default: 0
+  end
+
+  create_table "cities", force: :cascade do |t|
+    t.string "body", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["body"], name: "index_cities_on_body", opclass: :gin_trgm_ops, using: :gin
   end
 
   create_table "pg_search_documents", force: :cascade do |t|
