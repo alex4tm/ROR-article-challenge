@@ -1,5 +1,5 @@
+<%= link_to "⬅ back", root_path, class: "btn btn-info m-3 p-1"  %>
 <div class="d-flex container">
-
     <%= simple_form_for @article do |f| %>
       <%= f.input :title, label: "Add title", required: true %>
       <%= f.input :source_link, label: "Source Link", required: true %>
