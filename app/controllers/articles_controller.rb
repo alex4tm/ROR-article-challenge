@@ -1,12 +1,13 @@
+# frozen_string_literal: true
+
+# articles controller
 class ArticlesController < ApplicationController
-
-
   def index
-    if params[:query].present?
-      @articles = Article.search_by_title_headers_and_body(params[:query])
-    else
-      @articles = Article.all
-    end
+    @articles = if params[:query].present?
+                  Article.search_by_title_headers_and_body(params[:query])
+                else
+                  Article.all
+                end
   end
 
   def show
@@ -21,7 +22,6 @@ class ArticlesController < ApplicationController
     @article = Article.new(article_params)
     if @article.valid?
       @article.save
-      # shorten_link(@article)
       redirect_to root_path
     else
       flash.now[:messages] = @article.errors.full_messages[0]
@@ -34,5 +34,4 @@ class ArticlesController < ApplicationController
   def article_params
     params.require(:article).permit(:title, :source_link, :query)
   end
-
 end

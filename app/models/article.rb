@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# article model
 class Article < ActiveRecord::Base
   validates :title, presence: true
   url_regex = URI::DEFAULT_PARSER.make_regexp(%w[http https])
@@ -16,11 +19,12 @@ class Article < ActiveRecord::Base
                   using: {
                     tsearch: { prefix: true }
                   },
-                  ranked_by: ':tsearch / 2.0'
+                  ranked_by: ':tsearch / 2.0',
+                  order_within_rank: 'articles.updated_at DESC'
 
   def scrape_link
     url = source_link
-    html_file = URI.open(url).read
+    html_file = URI.parse(url).open.read
     html_doc = Nokogiri::HTML(html_file)
     headers = []
     body = ''
