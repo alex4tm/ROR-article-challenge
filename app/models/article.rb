@@ -34,10 +34,9 @@ class Article < ActiveRecord::Base
       headers << element.css('h3').children.text
       body = element.css('p').children.text
     end
-    self.body = body.to_s
-    self.headers = headers.to_s
-    save
-    self.reading_time = (self.body.split(' ').size / 120)
+    self.body = body
+    self.headers = headers
+    self.reading_time = (body.split(' ').size / 120)
     save
   end
 

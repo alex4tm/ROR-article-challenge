@@ -8,12 +8,12 @@
     <% if @article.body %>
       <p>Reading time: <%= @article.reading_time %> minute<%= @article.reading_time.to_i == 1 ? "" : "s" %></p>
     <% end %>
-    <% @article.headers.each do |header| %>
       <ul>
-        <li>
-          <h6> <%= header %></h6>
-        </li>
+        <% @article.headers.each do |header| %>
+          <li>
+            <h6> <%= header %></h6>
+          </li>
+        <% end %>
       </ul>
-    <% end %>
     <p> <%= @article.body %> </p>
 </div>
