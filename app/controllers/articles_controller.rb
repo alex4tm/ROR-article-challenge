@@ -20,8 +20,8 @@ class ArticlesController < ApplicationController
 
   def create
     @article = Article.new(article_params)
-    if @article.valid?
-      @article.save
+    if @article.save
+      flash[:notice] = "Article was successfully created."
       redirect_to root_path
     else
       flash.now[:messages] = @article.errors.full_messages[0]
