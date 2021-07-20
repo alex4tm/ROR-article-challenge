@@ -26,17 +26,17 @@ class Article < ActiveRecord::Base
     url = source_link
     html_file = URI.parse(url).open.read
     html_doc = Nokogiri::HTML(html_file)
-    headers = []
-    body = ''
+    sheaders = []
+    sbody = ''
     html_doc.css('body').collect do |element|
-      headers << element.css('h1').children.text
-      headers << element.css('h2').children.text
-      headers << element.css('h3').children.text
-      body = element.css('p').children.text
+      sheaders << element.css('h1').children.text
+      sheaders << element.css('h2').children.text
+      sheaders << element.css('h3').children.text
+      sbody = element.css('p').children.text
     end
-    self.body = body
-    self.headers = headers
-    self.reading_time = (body.split(' ').size / 120)
+    self.body = sbody
+    self.headers = sheaders
+    self.reading_time = (sbody.split(' ').size / 120)
     save
   end
 

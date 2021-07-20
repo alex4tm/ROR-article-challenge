@@ -9,10 +9,12 @@
       <p>Reading time: <%= @article.reading_time %> minute<%= @article.reading_time.to_i == 1 ? "" : "s" %></p>
     <% end %>
       <ul>
-        <% @article.headers.each do |header| %>
-          <li>
-            <h6> <%= header %></h6>
-          </li>
+        <% if @article.headers %>
+          <% @article.headers.each do |header| %>
+            <li>
+              <h6> <%= header %></h6>
+            </li>
+          <% end %>
         <% end %>
       </ul>
     <p> <%= @article.body %> </p>
